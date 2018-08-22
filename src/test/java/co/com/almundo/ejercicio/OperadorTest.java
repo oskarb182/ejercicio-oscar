@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Clase de prueba
+ * @author oskar
+ *
+ */
 public class OperadorTest {
 
+	
 	@Test
-	public void test1() {
+	public void unicoHilo() {
 
 		Operador operador = new Operador();
 		Supervisor supervisor = new Supervisor();
@@ -20,7 +26,7 @@ public class OperadorTest {
 
 		// Se agregan 6 empleados
 		for (int i = 1; i <= 6; i++) {
-			operador.agregarEmpleado(i);
+			operador.agregarEmpleado(i); 
 		}
 
 		// Se agregan 2 supervisores
@@ -30,6 +36,46 @@ public class OperadorTest {
 
 		// Se agregan 2 directores
 		for (int i = 1; i <= 2; i++) {
+			director.agregarEmpleado(i);
+		}
+
+	
+		new Thread(getRunnable(operador, 1,20)).start();
+
+		
+		try {
+			Thread.sleep(30000l);
+			System.out.println("Finalizando prueba");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void multiplesHilos() {
+
+		Operador operador = new Operador();
+		Supervisor supervisor = new Supervisor();
+		Director director = new Director();
+
+		operador.setNextDispatch(supervisor);
+		supervisor.setNextDispatch(director);
+		director.setNextDispatch(operador);
+
+		// Se agregan 6 empleados
+		for (int i = 1; i <= 7; i++) {
+			operador.agregarEmpleado(i); 
+		}
+
+		// Se agregan 2 supervisores
+		for (int i = 1; i <= 2; i++) {
+			supervisor.agregarEmpleado(i);
+		}
+
+		// Se agregan 1 directores
+		for (int i = 1; i <= 1; i++) {
 			director.agregarEmpleado(i);
 		}
 
