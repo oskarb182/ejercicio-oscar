@@ -72,8 +72,7 @@ public class Supervisor implements IDispatcher {
 					ContadorSingleton.incrementar();
 					asignado = true;
 					break;
-					
-					
+				
 				}
 			}
 			
